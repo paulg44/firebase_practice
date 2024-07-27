@@ -43,10 +43,12 @@ function SignUpForm() {
           required
         />
 
-        <button type="submit" onClick={onFormSubmit}></button>
+        <button type="submit" onClick={onFormSubmit}>
+          Sign Up
+        </button>
       </form>
       <p>
-        Already have an account? <NavLink to="/login">Sign in</NavLink>
+        Already have an account? <NavLink to="/login">Log in</NavLink>
       </p>
     </div>
   );
