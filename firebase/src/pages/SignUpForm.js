@@ -8,17 +8,23 @@ function SignUpForm() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   async function onFormSubmit(e) {
     e.preventDefault();
 
-    await createUserWithEmailAndPassword(auth, email, password).then(
-      (userCredential) => {
+    await createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
         navigate("/login");
-      }
-    );
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setError(errorMessage);
+        console.log(errorCode, errorMessage);
+      });
   }
 
   return (

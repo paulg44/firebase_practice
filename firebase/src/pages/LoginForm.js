@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { parseActionCodeURL, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase.js";
 import { NavLink, useNavigate } from "react-router-dom";
 
@@ -7,14 +7,27 @@ function LoginForm() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState("");
 
   function handleLogin(e) {
     e.preventDefault();
-    signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
-      const user = userCredential.user;
-      navigate("/home");
-      console.log(user);
-    });
+
+    setErrors("");
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        navigate("/home");
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+
+        setErrors("Incorrect Email or Password");
+
+        console.log(errorCode, errorMessage);
+      });
   }
 
   return (
@@ -29,6 +42,7 @@ function LoginForm() {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
+
         <label htmlFor="password">Enter Password</label>
         <input
           type="password"
@@ -38,6 +52,8 @@ function LoginForm() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+
+        <p style={{ color: "red" }}>{errors}</p>
 
         <button type="submit" onClick={handleLogin}>
           Log In
