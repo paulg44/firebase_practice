@@ -17,7 +17,7 @@ function LoginForm() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        navigate("/home");
+        navigate("/");
         console.log(user);
       })
       .catch((error) => {

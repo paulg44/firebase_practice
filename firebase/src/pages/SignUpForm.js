@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../firebase.js";
 
 function SignUpForm() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
@@ -27,18 +28,24 @@ function SignUpForm() {
     e.preventDefault();
 
     if (passwordChecker(password)) {
-      await createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          console.log(user);
-          navigate("/login");
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          setError(errorMessage);
-          console.log(errorCode, errorMessage);
-        });
+      try {
+        await createUserWithEmailAndPassword(auth, email, password).then(
+          (userCredential) => {
+            const user = userCredential.user;
+
+            updateProfile(user, {
+              displayName: username,
+            });
+            navigate("/login");
+            console.log(user);
+          }
+        );
+      } catch (error) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setError(errorMessage);
+        console.log(errorCode, errorMessage);
+      }
     }
   }
 
@@ -52,6 +59,15 @@ function SignUpForm() {
           className="formInput"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <label htmlFor="username">Enter Username</label>
+        <input
+          type="username"
+          label="Username"
+          className="formInput"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           required
         />
         <label htmlFor="password">Enter Password</label>
