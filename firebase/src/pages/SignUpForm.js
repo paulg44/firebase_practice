@@ -10,21 +10,36 @@ function SignUpForm() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  function passwordChecker(password) {
+    const passwordRegex =
+      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+
+    if (password.match(passwordRegex)) {
+      return true;
+    } else {
+      setError(
+        "Password must contain an uppercase letter, digit, special character and be 8 or more characters long."
+      );
+    }
+  }
+
   async function onFormSubmit(e) {
     e.preventDefault();
 
-    await createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
-        navigate("/login");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        setError(errorMessage);
-        console.log(errorCode, errorMessage);
-      });
+    if (passwordChecker(password)) {
+      await createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log(user);
+          navigate("/login");
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setError(errorMessage);
+          console.log(errorCode, errorMessage);
+        });
+    }
   }
 
   return (
@@ -48,6 +63,8 @@ function SignUpForm() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+
+        <p style={{ color: "red" }}>{error}</p>
 
         <button type="submit" onClick={onFormSubmit}>
           Sign Up
