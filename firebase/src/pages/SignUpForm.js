@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth } from "../firebase.js";
+import { auth } from "../config/firebase.js";
 
 function SignUpForm() {
   const navigate = useNavigate();
@@ -10,6 +10,27 @@ function SignUpForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  // Attempt to add username to database
+  async function addUserNameToDatabase(username) {
+    const newUser = {
+      name: username,
+    };
+    try {
+      const response = await fetch("/user/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newUser),
+      });
+      if (response.ok) {
+        console.log("Successfully added new user to db", newUser);
+      }
+    } catch (error) {
+      console.error("Error adding new user");
+    }
+  }
 
   function passwordChecker(password) {
     const passwordRegex =
@@ -36,6 +57,7 @@ function SignUpForm() {
             updateProfile(user, {
               displayName: username,
             });
+            addUserNameToDatabase(username);
             navigate("/login");
             console.log(user);
           }
