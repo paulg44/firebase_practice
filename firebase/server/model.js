@@ -1,13 +1,18 @@
 import { pool } from "./server.js";
+import crypto from "crypto";
+
+function hashUid(uid) {
+  return crypto.createHash("sha256").update(uid).digest("hex");
+}
 
 export async function addUsernameToDB(body) {
   const { username, uid } = body;
-
+  const hashedUid = hashUid(uid);
   try {
     const client = await pool.connect();
     const addUsernameQuery = await client.query(
       "INSERT INTO authfirebase (username, firebaseuid) VALUES ($1, $2)",
-      [username, uid]
+      [username, hashedUid]
     );
 
     client.release();
