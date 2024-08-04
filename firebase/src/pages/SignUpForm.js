@@ -14,19 +14,22 @@ function SignUpForm() {
   // Attempt to add username to database
   async function addUserNameToDatabase(username) {
     const newUser = {
-      name: username,
+      username: username,
     };
     try {
-      const response = await fetch("/user/register", {
+      const response = await fetch("http://localhost:3000/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(newUser),
       });
-      if (response.ok) {
-        console.log("Successfully added new user to db", newUser);
+      if (!response.ok) {
+        throw new Error(`http error! status: ${response.status}`);
       }
+
+      const data = await response.json();
+      console.log("Successfully added new user to db", data);
     } catch (error) {
       console.error("Error adding new user");
     }

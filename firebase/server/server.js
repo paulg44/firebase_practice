@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import pkg from "pg";
+import { userRoutes } from "./routes.js";
 
 dotenv.config();
 
@@ -23,6 +24,8 @@ export const pool = new Pool({
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
+
+app.use("/api", userRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
