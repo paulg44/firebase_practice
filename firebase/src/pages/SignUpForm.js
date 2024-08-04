@@ -12,9 +12,10 @@ function SignUpForm() {
   const [error, setError] = useState("");
 
   // Attempt to add username to database
-  async function addUserNameToDatabase(username) {
+  async function addUserNameToDatabase(username, uid) {
     const newUser = {
       username: username,
+      uid: uid,
     };
     try {
       const response = await fetch("http://localhost:3000/api/register", {
@@ -56,11 +57,13 @@ function SignUpForm() {
         await createUserWithEmailAndPassword(auth, email, password).then(
           (userCredential) => {
             const user = userCredential.user;
+            const uid = user.uid;
 
             updateProfile(user, {
               displayName: username,
             });
-            addUserNameToDatabase(username);
+
+            addUserNameToDatabase(username, uid);
             navigate("/login");
             console.log(user);
           }
