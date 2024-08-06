@@ -11,3 +11,14 @@ export async function addUsernameController(req, res) {
     res.status(500).json({ error: "Internal add username server error" });
   }
 }
+
+export async function retrieveDataController(req, res) {
+  try {
+    const data = req.body;
+    const retrieveDataFromDB = await addUserModel.retrieveData(data);
+    console.log(`Success, payload ${retrieveDataFromDB.rows}`);
+    res.status(200).json(retrieveDataFromDB.rows);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+}

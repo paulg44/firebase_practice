@@ -7,6 +7,7 @@ function Homepage() {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState("Login");
   const [userEmail, setUserEmail] = useState("");
+  // const [dbUID, setDbUID] = useState("");
 
   function handleLogOut() {
     signOut(auth)
@@ -14,9 +15,20 @@ function Homepage() {
         navigate("/login");
         console.log("Signed out successfully");
       })
-      .catch((error) => {
+      .catch(() => {
         console.log("error signing out");
       });
+  }
+
+  // Should I make the ID of the database the UID???
+  async function fetchAllDataTest() {
+    try {
+      const reponse = await fetch("/api/data");
+      const data = await reponse.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching data from DB");
+    }
   }
 
   useEffect(() => {
@@ -25,7 +37,9 @@ function Homepage() {
         const uid = user.uid;
         setIsLoggedIn("Logout");
         setUserEmail(user.displayName);
-        console.log("uid", uid);
+        fetchAllDataTest();
+        console.log("uid", uid, user);
+        // Retrieve ID token?
       } else {
         console.log("user is logged out");
       }

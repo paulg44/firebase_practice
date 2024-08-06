@@ -22,3 +22,16 @@ export async function addUsernameToDB(body) {
     throw error;
   }
 }
+
+export async function retrieveData() {
+  try {
+    const client = await pool.connect();
+    const retrieveDataQuery = await pool.query("SELECT * FROM authfirebase");
+
+    client.release();
+    return retrieveDataQuery;
+  } catch (error) {
+    console.error("Error retrieving data:", error);
+    throw error;
+  }
+}
