@@ -5,9 +5,7 @@ import dotenv from "dotenv";
 import pkg from "pg";
 import { userRoutes } from "./routes.js";
 import stripe from "stripe";
-const Stripe = new stripe(
-  "sk_test_51PqKB308xH2WmC3ZsENJ73wDSbwTcuJ4SqLwBHau2dp0Rb5IUjMFtzMntg9GKgSVjd9BOasFvYKvIrvhlEeBXMzT00XQluuuCH"
-);
+const Stripe = new stripe("");
 
 dotenv.config();
 
