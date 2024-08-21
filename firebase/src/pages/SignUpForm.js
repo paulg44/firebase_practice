@@ -79,6 +79,7 @@ function SignUpForm() {
 
   return (
     <div>
+      <h2>Welcome to Auth/Stripe application</h2>
       <form id="signUpForm">
         <label htmlFor="email">Enter Email</label>
         <input

@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "./config/firebase.js";
-import { useNavigate } from "react-router-dom";
 import "./App.css";
 import SignUpForm from "./pages/SignUpForm.js";
 import LoginForm from "./pages/LoginForm.js";
@@ -10,7 +9,6 @@ import Homepage from "./pages/Homepage.js";
 import NavBar from "./components/NavBar.js";
 
 function App() {
-  // const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState("Login");
   const [userEmail, setUserEmail] = useState("Guest");
 
@@ -49,8 +47,8 @@ function App() {
         handleLogOut={handleLogOut}
       />
       <Routes>
-        <Route path="/" element={<Homepage />}></Route>
-        <Route path="/signup" element={<SignUpForm />} />
+        <Route path="/home" element={<Homepage />}></Route>
+        <Route path="/" element={<SignUpForm />} />
         <Route path="/login" element={<LoginForm />} />
       </Routes>
     </BrowserRouter>
