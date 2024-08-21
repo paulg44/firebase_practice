@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function NavBar({ isLoggedIn, handleLogOut, userEmail }) {
   return (
-    <navbar>
+    <nav>
       <Link to={"/"}>Auth/Stripe Test</Link>
       <div className="navbarInfo">
         <p>Welcome {userEmail}</p>
@@ -12,7 +12,7 @@ function NavBar({ isLoggedIn, handleLogOut, userEmail }) {
           <Link to={"/login"}>Login</Link>
         )}
       </div>
-    </navbar>
+    </nav>
   );
 }
 
