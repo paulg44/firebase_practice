@@ -4,6 +4,10 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import pkg from "pg";
 import { userRoutes } from "./routes.js";
+import stripe from "stripe";
+const Stripe = new stripe(
+  "sk_test_51PqKB308xH2WmC3ZsENJ73wDSbwTcuJ4SqLwBHau2dp0Rb5IUjMFtzMntg9GKgSVjd9BOasFvYKvIrvhlEeBXMzT00XQluuuCH"
+);
 
 dotenv.config();
 
@@ -26,6 +30,23 @@ app.use(cors());
 app.use(cookieParser());
 
 app.use("/api", userRoutes);
+
+app.post("/create-checkout-session", async (req, res) => {
+  const session = await Stripe.Checkout.SessionsResource.create({
+    line_items: [
+      {
+        price: process.env.REACT_APP_PRICE,
+        // NOT SAFE
+        quantity: 1,
+      },
+    ],
+    mode: "payment",
+    success_url: `${PORT}?success=true`,
+    cancel_url: `${PORT}?cancelled=true`,
+  });
+
+  res.redirect(303, session.url);
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
