@@ -5,9 +5,10 @@ import dotenv from "dotenv";
 import pkg from "pg";
 import { userRoutes } from "./routes.js";
 import stripe from "stripe";
-const Stripe = new stripe(process.env.REACT_APP_DB_STRING);
 
 dotenv.config();
+
+const Stripe = new stripe(process.env.REACT_APP_STRIPE_SECRET_KEY);
 
 const { Pool } = pkg;
 
@@ -40,7 +41,7 @@ app.post("/create-checkout-session", async (req, res) => {
     ],
     mode: "payment",
     // Stay on landing page after redirect?
-    success_url: `http://localhost:3001?success=true`,
+    success_url: `http://localhost:3001/home`,
     cancel_url: `http://localhost:3001?cancelled=true`,
   });
 
