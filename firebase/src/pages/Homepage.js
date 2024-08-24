@@ -29,7 +29,10 @@ function Homepage() {
             <h5>£20</h5>
           </div>
         </div>
-        <form action="/create-checkout-session" method="POST">
+        <form
+          action="http://localhost:3001/create-checkout-session"
+          method="POST"
+        >
           <button type="submit">Checkout</button>
         </form>
       </section>

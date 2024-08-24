@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import pkg from "pg";
 import { userRoutes } from "./routes.js";
 import stripe from "stripe";
-const Stripe = new stripe("");
+const Stripe = new stripe(process.env.REACT_APP_DB_STRING);
 
 dotenv.config();
 
@@ -30,17 +30,18 @@ app.use(cookieParser());
 app.use("/api", userRoutes);
 
 app.post("/create-checkout-session", async (req, res) => {
-  const session = await Stripe.Checkout.SessionsResource.create({
+  const session = await Stripe.checkout.sessions.create({
     line_items: [
       {
-        price: process.env.REACT_APP_PRICE,
+        price: process.env.REACT_APP_STRIPE_TEST_PRICE,
         // NOT SAFE
         quantity: 1,
       },
     ],
     mode: "payment",
-    success_url: `${PORT}?success=true`,
-    cancel_url: `${PORT}?cancelled=true`,
+    // Stay on landing page after redirect?
+    success_url: `http://localhost:3001?success=true`,
+    cancel_url: `http://localhost:3001?cancelled=true`,
   });
 
   res.redirect(303, session.url);
