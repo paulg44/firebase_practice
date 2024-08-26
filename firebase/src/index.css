@@ -12,23 +12,26 @@
 }
 
 body {
-  background-color: var(--snow);
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  /* align-items: center; */
-  justify-content: center;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  background-color: var(--snow);
+  font-family: -apple-system, BlinkMacSystemFont, "Glass Antiqua", cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Moderustic", sans-serif;
 }
 
 a {
   text-decoration: none;
   color: black;
-  font-family: "Roboto", sans-serif;
+  font-family: "Moderustic", sans-serif;
 }
 
 button {
@@ -38,5 +41,23 @@ button {
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
+  margin: 10px;
   width: 100px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+}
+
+form label {
+  align-self: flex-start;
+  margin-top: 10px;
+}
+
+form input {
+  border: 1.5px solid var(--english-violet);
+  border-radius: 2px;
 }

@@ -9,12 +9,12 @@ function NavBar({ isLoggedIn, handleLogOut, userEmail }) {
       </Link>
       <div className="navbarInfo">
         <p>Welcome {userEmail}</p>
+        {/* Need to remove completely if not logged in or signed up*/}
         {isLoggedIn === "Logout" ? (
           <button onClick={handleLogOut} className="navbarBtn">
             Logout
           </button>
         ) : (
-          // Need to remove this if already on login page
           <Link to={"/login"}>Login</Link>
         )}
       </div>

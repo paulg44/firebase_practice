@@ -65,7 +65,11 @@ function Homepage() {
     }
   }, []);
 
-  return message ? <Message message={message} /> : <ProductDisplay />;
+  return (
+    <div className="homepage">
+      {message ? <Message message={message} /> : <ProductDisplay />}
+    </div>
+  );
 }
 
 export default Homepage;

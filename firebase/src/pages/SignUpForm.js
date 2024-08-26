@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../css/signUpForm.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../config/firebase.js";
@@ -78,7 +79,7 @@ function SignUpForm() {
   }
 
   return (
-    <div>
+    <div className="signUpMain">
       <h2>Welcome to Auth/Stripe application</h2>
       <form id="signUpForm">
         <label htmlFor="email">Enter Email</label>
