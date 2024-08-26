@@ -38,11 +38,16 @@ app.post("/create-checkout-session", async (req, res) => {
         // NOT SAFE
         quantity: 1,
       },
+      {
+        price: process.env.REACT_APP_STRIPE_TEST_PRICE_TWO,
+        // NOT SAFE
+        quantity: 1,
+      },
     ],
     mode: "payment",
     // Stay on landing page after redirect?
     success_url: `http://localhost:3001/home`,
-    cancel_url: `http://localhost:3001?cancelled=true`,
+    cancel_url: `http://localhost:3001/home`,
   });
 
   res.redirect(303, session.url);

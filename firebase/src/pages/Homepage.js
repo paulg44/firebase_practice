@@ -1,20 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 function Homepage() {
-  const [message, setMessage] = useState("");
-
-  // // Should I make the ID of the database the UID???
-  // async function fetchAllDataTest() {
-  //   try {
-  //     const response = await fetch("/api/data");
-  //     const data = await response.json();
-  //     console.log(data);
-  //     // setUserEmail(data[0].username);
-  //   } catch (error) {
-  //     console.error("Error fetching data from DB");
-  //   }
-  // }
-
   // Stripe Product
   const ProductDisplay = () => {
     return (
@@ -48,6 +34,8 @@ function Homepage() {
     );
   };
 
+  const [message, setMessage] = useState("");
+
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
 
@@ -60,21 +48,7 @@ function Homepage() {
     }
   }, []);
 
-  return message ? (
-    // <div>
-    //   <h2>Auth & Stripe Testing Homepage</h2>
-    //   <p>
-    //     If you see this page you have successfully registered and logged in to
-    //     this application. Please follow the instruction below to test the stripe
-    //     payment system if you wish
-    //   </p>
-
-    // </div>
-
-    <Message message={message} />
-  ) : (
-    <ProductDisplay />
-  );
+  return message ? <Message message={message} /> : <ProductDisplay />;
 }
 
 export default Homepage;
