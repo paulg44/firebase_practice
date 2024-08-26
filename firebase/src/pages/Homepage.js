@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "../css/homepage.css";
 
 function Homepage() {
   // Stripe Product
@@ -7,16 +8,32 @@ function Homepage() {
       <section>
         <div className="product">
           <img
-            src="https://images.unsplash.com/photo-1515606378517-3451a4fa2e12?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8bW9uZXl8ZW58MHx8MHx8fDA%3D"
-            alt="my money to display"
+            src="https://plus.unsplash.com/premium_photo-1664304188646-47b168d698aa?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8YmFuYW5hfGVufDB8fDB8fHww"
+            alt="banana"
           />
           <div className="description">
-            <h3>Buy this product</h3>
+            <h3>Buy this Banana</h3>
             <h5>£20</h5>
           </div>
         </div>
         <form
           action="http://localhost:3001/create-checkout-session"
+          method="POST"
+        >
+          <button type="submit">Checkout</button>
+        </form>
+        <div className="product">
+          <img
+            src="https://plus.unsplash.com/premium_photo-1668772704261-b11d89a92bad?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8YXBwbGV8ZW58MHx8MHx8fDA%3D"
+            alt="apple"
+          />
+          <div className="description">
+            <h3>Buy this Apple</h3>
+            <h5>£10</h5>
+          </div>
+        </div>
+        <form
+          action="http://localhost:3001/create-checkout-session/2ndProduct"
           method="POST"
         >
           <button type="submit">Checkout</button>

@@ -38,6 +38,19 @@ app.post("/create-checkout-session", async (req, res) => {
         // NOT SAFE
         quantity: 1,
       },
+    ],
+    mode: "payment",
+    // Stay on landing page after redirect?
+    success_url: `http://localhost:3001/home`,
+    cancel_url: `http://localhost:3001/home`,
+  });
+
+  res.redirect(303, session.url);
+});
+
+app.post("/create-checkout-session/2ndProduct", async (req, res) => {
+  const session = await Stripe.checkout.sessions.create({
+    line_items: [
       {
         price: process.env.REACT_APP_STRIPE_TEST_PRICE_TWO,
         // NOT SAFE
