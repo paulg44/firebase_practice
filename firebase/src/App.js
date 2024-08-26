@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "./config/firebase.js";
-import "./App.css";
 import SignUpForm from "./pages/SignUpForm.js";
 import LoginForm from "./pages/LoginForm.js";
 import Homepage from "./pages/Homepage.js";

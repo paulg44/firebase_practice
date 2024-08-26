@@ -41,7 +41,9 @@ app.post("/create-checkout-session", async (req, res) => {
     ],
     mode: "payment",
     // Stay on landing page after redirect?
-    success_url: `http://localhost:3001/home`,
+    success_url:
+      // "http://localhost:3001/order/success?session_id={CHECKOUT_SESSION_ID}",
+      "http://localhost:3001/home",
     cancel_url: `http://localhost:3001/home`,
   });
 
@@ -50,6 +52,11 @@ app.post("/create-checkout-session", async (req, res) => {
 
 app.post("/create-checkout-session/2ndProduct", async (req, res) => {
   const session = await Stripe.checkout.sessions.create({
+    success_url:
+      // "http://localhost:3001/order/success?session_id={CHECKOUT_SESSION_ID}",
+      "http://localhost:3001/home",
+    cancel_url: `http://localhost:3001/home`,
+
     line_items: [
       {
         price: process.env.REACT_APP_STRIPE_TEST_PRICE_TWO,
@@ -58,13 +65,21 @@ app.post("/create-checkout-session/2ndProduct", async (req, res) => {
       },
     ],
     mode: "payment",
-    // Stay on landing page after redirect?
-    success_url: `http://localhost:3001/home`,
-    cancel_url: `http://localhost:3001/home`,
   });
 
   res.redirect(303, session.url);
 });
+
+// app.get("/order/success", async (req, res) => {
+//   const session = await Stripe.checkout.sessions.retrieve(
+//     req.query.session_id
+//   );
+//   const customer = await Stripe.customers.retrieve(session.customer);
+
+//   res.send(
+//     `<html><body><h1>Thanks for your order, ${customer.name}!</h1></body></html>`
+//   );
+// });
 
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);

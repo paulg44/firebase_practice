@@ -1,0 +1,36 @@
+.navBar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--english-violet);
+  color: var(--snow);
+}
+
+.logo {
+  margin-left: 20px;
+}
+
+.navBar a {
+  color: var(--snow);
+}
+
+.navbarInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.navbarBtn {
+  cursor: pointer;
+  background-color: var(--raspberry);
+  color: var(--french-gray);
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  width: 100px;
+}
