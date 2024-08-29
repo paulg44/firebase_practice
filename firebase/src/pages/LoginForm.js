@@ -62,7 +62,7 @@ function LoginForm() {
       </form>
 
       <p>
-        No account yet? <NavLink to="/signup">Sign Up</NavLink>
+        No account yet? <NavLink to="/">Sign Up</NavLink>
       </p>
     </div>
   );
