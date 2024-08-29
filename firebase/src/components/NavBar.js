@@ -11,11 +11,13 @@ function NavBar({ isLoggedIn, handleLogOut, userEmail }) {
         <p>Welcome {userEmail}</p>
         {/* Need to remove completely if not logged in or signed up*/}
         {isLoggedIn === "Logout" ? (
-          <button onClick={handleLogOut} className="navbarBtn">
+          <Link to={"/"} onClick={handleLogOut} className="navbarBtn">
             Logout
-          </button>
+          </Link>
         ) : (
-          <Link to={"/login"}>Login</Link>
+          <Link to={"/login"} className="navbarBtn">
+            Login
+          </Link>
         )}
       </div>
     </nav>

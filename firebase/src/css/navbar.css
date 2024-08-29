@@ -20,7 +20,6 @@
 
 .navbarInfo {
   display: flex;
-  flex-direction: column;
   align-items: center;
   margin-right: 20px;
 }
@@ -31,6 +30,6 @@
   color: var(--french-gray);
   border: none;
   border-radius: 5px;
-  padding: 10px 20px;
-  width: 100px;
+  padding: 8px 20px;
+  margin: 0 10px;
 }

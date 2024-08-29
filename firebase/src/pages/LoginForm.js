@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../css/loginForm.css";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/firebase.js";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -31,8 +32,8 @@ function LoginForm() {
   }
 
   return (
-    <div>
-      <form>
+    <div className="loginFormContainer">
+      <form className="loginForm">
         <label htmlFor="email">Enter Email</label>
         <input
           type="email"

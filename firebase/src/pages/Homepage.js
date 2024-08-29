@@ -15,13 +15,13 @@ function Homepage() {
             <h3>Buy this Banana</h3>
             <h5>£20</h5>
           </div>
+          <form
+            action="http://localhost:3001/create-checkout-session"
+            method="POST"
+          >
+            <button type="submit">Checkout</button>
+          </form>
         </div>
-        <form
-          action="http://localhost:3001/create-checkout-session"
-          method="POST"
-        >
-          <button type="submit">Checkout</button>
-        </form>
         <div className="product">
           <img
             src="https://plus.unsplash.com/premium_photo-1668772704261-b11d89a92bad?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8YXBwbGV8ZW58MHx8MHx8fDA%3D"
@@ -31,13 +31,13 @@ function Homepage() {
             <h3>Buy this Apple</h3>
             <h5>£10</h5>
           </div>
+          <form
+            action="http://localhost:3001/create-checkout-session/2ndProduct"
+            method="POST"
+          >
+            <button type="submit">Checkout</button>
+          </form>
         </div>
-        <form
-          action="http://localhost:3001/create-checkout-session/2ndProduct"
-          method="POST"
-        >
-          <button type="submit">Checkout</button>
-        </form>
       </section>
     );
   };

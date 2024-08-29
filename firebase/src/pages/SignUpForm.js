@@ -81,6 +81,7 @@ function SignUpForm() {
   return (
     <div className="signUpMain">
       <h2>Welcome to Auth/Stripe application</h2>
+      <p>Description of site to go here</p>
       <form id="signUpForm">
         <label htmlFor="email">Enter Email</label>
         <input
