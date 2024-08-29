@@ -91,6 +91,7 @@ function SignUpForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          data-cy="emailInput"
         />
         <label htmlFor="username">Enter Username</label>
         <input
@@ -100,6 +101,7 @@ function SignUpForm() {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
+          data-cy="usernameInput"
         />
         <label htmlFor="password">Enter Password</label>
         <input
@@ -109,6 +111,7 @@ function SignUpForm() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          data-cy="passwordInput"
         />
 
         <p style={{ color: "red" }}>{error}</p>
