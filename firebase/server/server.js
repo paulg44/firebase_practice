@@ -43,7 +43,7 @@ app.post("/create-checkout-session", async (req, res) => {
     // Stay on landing page after redirect?
     success_url:
       // "http://localhost:3001/order/success?session_id={CHECKOUT_SESSION_ID}",
-      "http://localhost:3000/home",
+      "http://localhost:3000/home/success",
     cancel_url: `http://localhost:3000/home`,
   });
 

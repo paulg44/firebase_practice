@@ -50,7 +50,10 @@ function App() {
         <Route path="/home" element={<Homepage />}></Route>
         <Route path="/" element={<SignUpForm />} />
         <Route path="/login" element={<LoginForm />} />
-        <Route path="/home/success" element={<Success />} />
+        <Route
+          path="/home/success"
+          element={<Success userEmail={userEmail} />}
+        />
       </Routes>
     </BrowserRouter>
   );
