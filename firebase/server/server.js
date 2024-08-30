@@ -43,8 +43,8 @@ app.post("/create-checkout-session", async (req, res) => {
     // Stay on landing page after redirect?
     success_url:
       // "http://localhost:3001/order/success?session_id={CHECKOUT_SESSION_ID}",
-      "http://localhost:3001/home",
-    cancel_url: `http://localhost:3001/home`,
+      "http://localhost:3000/home",
+    cancel_url: `http://localhost:3000/home`,
   });
 
   res.redirect(303, session.url);
@@ -54,8 +54,8 @@ app.post("/create-checkout-session/2ndProduct", async (req, res) => {
   const session = await Stripe.checkout.sessions.create({
     success_url:
       // "http://localhost:3001/order/success?session_id={CHECKOUT_SESSION_ID}",
-      "http://localhost:3001/home",
-    cancel_url: `http://localhost:3001/home`,
+      "http://localhost:3000/home/success",
+    cancel_url: `http://localhost:3000/home`,
 
     line_items: [
       {

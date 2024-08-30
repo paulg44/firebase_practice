@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+// import React, { useEffect, useState } from "react";
 import "../css/homepage.css";
 
 function Homepage() {
@@ -16,7 +16,7 @@ function Homepage() {
             <h5>£20</h5>
           </div>
           <form
-            action="http://localhost:3001/create-checkout-session"
+            action="http://localhost:3000/create-checkout-session"
             method="POST"
           >
             <button type="submit">Checkout</button>
@@ -32,7 +32,7 @@ function Homepage() {
             <h5>£10</h5>
           </div>
           <form
-            action="http://localhost:3001/create-checkout-session/2ndProduct"
+            action="http://localhost:3000/create-checkout-session/2ndProduct"
             method="POST"
           >
             <button type="submit">Checkout</button>
@@ -42,32 +42,32 @@ function Homepage() {
     );
   };
 
-  // Stripe Message
-  const Message = ({ message }) => {
-    return (
-      <section>
-        <p>{message}</p>
-      </section>
-    );
-  };
+  // // Stripe Message
+  // const Message = ({ message }) => {
+  //   return (
+  //     <section>
+  //       <p>{message}</p>
+  //     </section>
+  //   );
+  // };
 
-  const [message, setMessage] = useState("");
+  // const [message, setMessage] = useState("");
 
-  useEffect(() => {
-    const query = new URLSearchParams(window.location.search);
+  // useEffect(() => {
+  //   const query = new URLSearchParams(window.location.search);
 
-    if (query.get("success")) {
-      setMessage("Order placed! You will receive an email confirmation");
-    }
+  //   if (query.get("success")) {
+  //     setMessage("Order placed! You will receive an email confirmation");
+  //   }
 
-    if (query.get("cancelled")) {
-      setMessage("Order cancelled -- continue to shop around");
-    }
-  }, []);
+  //   if (query.get("cancelled")) {
+  //     setMessage("Order cancelled -- continue to shop around");
+  //   }
+  // }, []);
 
   return (
     <div className="homepage">
-      {message ? <Message message={message} /> : <ProductDisplay />}
+      <ProductDisplay />
     </div>
   );
 }
