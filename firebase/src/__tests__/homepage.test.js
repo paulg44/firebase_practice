@@ -1,13 +1,18 @@
 import { screen, render } from "@testing-library/react";
 import Homepage from "../pages/Homepage";
+import { MemoryRouter } from "react-router-dom";
 
-function renderComponent() {
-  render(<Homepage />);
-}
+// function renderComponent() {
+//   render(<Homepage />);
+// }
 
 describe("homepage UI tests", () => {
   it("displays a header", () => {
-    renderComponent();
+    render(
+      <MemoryRouter>
+        <Homepage />
+      </MemoryRouter>
+    );
 
     expect(
       screen.getByRole("heading", { name: /banana/i })
