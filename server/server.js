@@ -50,24 +50,34 @@ app.post("/create-checkout-session", async (req, res) => {
   res.redirect(303, session.url);
 });
 
-app.post("/create-checkout-session/2ndProduct", async (req, res) => {
-  const session = await Stripe.checkout.sessions.create({
-    success_url:
-      // "http://localhost:3001/order/success?session_id={CHECKOUT_SESSION_ID}",
-      "http://localhost:3000/home/success",
-    cancel_url: `http://localhost:3000/home`,
+app.get("/get-all-items", async (req, res) => {
+  try {
+    const products = await Stripe.products.list({
+      limit: 10,
+    });
+    const prices = await Stripe.prices.list({ limit: 10 });
 
-    line_items: [
-      {
-        price: process.env.REACT_APP_STRIPE_TEST_PRICE_TWO,
-        // NOT SAFE
-        quantity: 1,
-      },
-    ],
-    mode: "payment",
-  });
+    const productsWithPrices = products.data.map((item) => {
+      const itemPrice = prices.data.find(
+        (price) => price.id === item.default_price
+      );
+      return {
+        ...item,
+        default_price: itemPrice ? itemPrice.id : null,
+        metadata: {
+          ...item.metadata,
+          clientPrice: itemPrice
+            ? (itemPrice.unit_amount / 100).toFixed(2)
+            : "N/A",
+        },
+      };
+    });
 
-  res.redirect(303, session.url);
+    res.json(productsWithPrices);
+  } catch (error) {
+    console.error("Error fetching data server side", error);
+    res.status(500).send("Error fetching data in server");
+  }
 });
 
 // app.get("/order/success", async (req, res) => {
