@@ -31,23 +31,28 @@ app.use(cookieParser());
 app.use("/api", userRoutes);
 
 app.post("/create-checkout-session", async (req, res) => {
-  const session = await Stripe.checkout.sessions.create({
-    line_items: [
-      {
-        price: process.env.REACT_APP_STRIPE_TEST_PRICE,
-        // NOT SAFE
-        quantity: 1,
-      },
-    ],
-    mode: "payment",
-    // Stay on landing page after redirect?
-    success_url:
-      // "http://localhost:3001/order/success?session_id={CHECKOUT_SESSION_ID}",
-      "http://localhost:3000/home/success",
-    cancel_url: `http://localhost:3000/home`,
-  });
+  const { price_id } = req.body;
+  try {
+    const session = await Stripe.checkout.sessions.create({
+      line_items: [
+        {
+          price: price_id,
+          quantity: 1,
+        },
+      ],
+      mode: "payment",
+      // Stay on landing page after redirect?
+      success_url:
+        // "http://localhost:3001/order/success?session_id={CHECKOUT_SESSION_ID}",
+        "http://localhost:3000/home/success",
+      cancel_url: `http://localhost:3000/home`,
+    });
 
-  res.redirect(303, session.url);
+    res.json({ url: session.url });
+  } catch (error) {
+    console.error("Error creating checkout session in server", error);
+    res.status(500).send("Error creating checkout session");
+  }
 });
 
 app.get("/get-all-items", async (req, res) => {
