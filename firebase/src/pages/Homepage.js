@@ -3,6 +3,7 @@ import "../css/homepage.css";
 
 function Homepage() {
   const [products, setProducts] = useState([]);
+  const [itemQuantity, setItemQuantity] = useState(1);
 
   useEffect(() => {
     const fetchAllProductsFromStripe = async () => {
@@ -21,7 +22,7 @@ function Homepage() {
     fetchAllProductsFromStripe();
   }, []);
 
-  async function handleStripeCheckout(price_id) {
+  async function handleStripeCheckout(price_id, quantity) {
     try {
       const stripeCheckoutResponse = await fetch(
         "http://localhost:3000/create-checkout-session",
@@ -32,6 +33,7 @@ function Homepage() {
           },
           body: JSON.stringify({
             price_id,
+            quantity,
           }),
         }
       );
@@ -48,20 +50,47 @@ function Homepage() {
   return (
     <div className="homepage">
       <div className="itemsContainer">
-        {products.map((item) => (
-          <div key={item.id} className="itemCard">
-            <h3>{item.name}</h3>
-            <img src={item.images[0]} alt={item.name} />
-            <p>{item.description}</p>
-            <button
-              type="submit"
-              className="shopCardBtn"
-              onClick={() => handleStripeCheckout(item.default_price)}
-            >
-              Buy for £{item.metadata.clientPrice}
-            </button>
-          </div>
-        ))}
+        <h2>Single Sale Items/with quantity</h2>
+        <div className="itemCardsContainer">
+          {products.map((item) => (
+            <div key={item.id} className="itemCard">
+              <h3>{item.name}</h3>
+              <img src={item.images[0]} alt={item.name} />
+              <p>{item.description}</p>
+              <button
+                type="submit"
+                className="shopCardBtn"
+                onClick={() =>
+                  handleStripeCheckout(item.default_price, itemQuantity)
+                }
+              >
+                Buy for £{item.metadata.clientPrice}
+              </button>
+              <button
+                disabled={itemQuantity === 1}
+                onClick={() => setItemQuantity(itemQuantity - 1)}
+                type="button"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                max="10"
+                value={itemQuantity}
+                name="Item Quantity"
+                readOnly
+              />
+              <button
+                disabled={itemQuantity === 10}
+                onClick={() => setItemQuantity(itemQuantity + 1)}
+                type="button"
+              >
+                +
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

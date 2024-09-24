@@ -31,13 +31,16 @@ app.use(cookieParser());
 app.use("/api", userRoutes);
 
 app.post("/create-checkout-session", async (req, res) => {
-  const { price_id } = req.body;
+  const { price_id, quantity } = req.body;
   try {
     const session = await Stripe.checkout.sessions.create({
+      shipping_address_collection: {
+        allowed_countries: ["GB"],
+      },
       line_items: [
         {
           price: price_id,
-          quantity: 1,
+          quantity: quantity,
         },
       ],
       mode: "payment",

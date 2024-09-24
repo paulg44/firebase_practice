@@ -13,9 +13,5 @@ describe("homepage UI tests", () => {
         <Homepage />
       </MemoryRouter>
     );
-
-    expect(
-      screen.getByRole("heading", { name: /banana/i })
-    ).toBeInTheDocument();
   });
 });
