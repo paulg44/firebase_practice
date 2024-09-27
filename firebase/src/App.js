@@ -7,6 +7,7 @@ import LoginForm from "./pages/LoginForm.js";
 import Homepage from "./pages/Homepage.js";
 import NavBar from "./components/NavBar.js";
 import Success from "./pages/Success.js";
+import Basket from "./components/Basket.js";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState("Login");
@@ -50,6 +51,7 @@ function App() {
         <Route path="/home" element={<Homepage />}></Route>
         <Route path="/" element={<SignUpForm />} />
         <Route path="/login" element={<LoginForm />} />
+        <Route path="/basket" element={<Basket />} />
         <Route
           path="/home/success"
           element={<Success userEmail={userEmail} />}
