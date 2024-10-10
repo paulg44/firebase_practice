@@ -2,6 +2,9 @@ import { screen, render } from "@testing-library/react";
 import SignUpForm from "../pages/SignUpForm";
 import { MemoryRouter } from "react-router-dom";
 
+jest.mock("firebase/app");
+jest.mock("firebase/auth");
+
 test("form renders with 2 inputs and a button", () => {
   render(
     <MemoryRouter>

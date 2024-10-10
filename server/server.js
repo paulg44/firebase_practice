@@ -88,17 +88,6 @@ app.get("/get-all-items", async (req, res) => {
   }
 });
 
-// app.get("/order/success", async (req, res) => {
-//   const session = await Stripe.checkout.sessions.retrieve(
-//     req.query.session_id
-//   );
-//   const customer = await Stripe.customers.retrieve(session.customer);
-
-//   res.send(
-//     `<html><body><h1>Thanks for your order, ${customer.name}!</h1></body></html>`
-//   );
-// });
-
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
 });
