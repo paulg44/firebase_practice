@@ -19,7 +19,7 @@ function SignUpForm() {
       uid: uid,
     };
     try {
-      const response = await fetch("http://localhost:3001/api/register", {
+      const response = await fetch("http://localhost:3000/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -85,6 +85,7 @@ function SignUpForm() {
       <form id="signUpForm">
         <label htmlFor="email">Enter Email</label>
         <input
+          id="email"
           type="email"
           label="Email address"
           className="formInput"
@@ -95,6 +96,7 @@ function SignUpForm() {
         />
         <label htmlFor="username">Enter Username</label>
         <input
+          id="username"
           type="username"
           label="Username"
           className="formInput"
@@ -105,6 +107,7 @@ function SignUpForm() {
         />
         <label htmlFor="password">Enter Password</label>
         <input
+          id="password"
           type="password"
           label="Password"
           className="formInput"
