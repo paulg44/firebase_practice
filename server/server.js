@@ -45,8 +45,7 @@ app.post("/create-checkout-session", async (req, res) => {
       ],
       mode: "payment",
       // Stay on landing page after redirect?
-      success_url:
-        "http://localhost:3000/home/success",
+      success_url: "http://localhost:3000/home/success",
       cancel_url: `http://localhost:3000/home`,
     });
 
@@ -64,7 +63,14 @@ app.get("/get-all-items", async (req, res) => {
     });
     const prices = await Stripe.prices.list({ limit: 10 });
 
-    const productsWithPrices = products.data.map((item) => {
+    const filterProducts = products.data.filter((item) => {
+      const itemPrice = prices.data.find(
+        (price) => price.id === item.default_price
+      );
+      return itemPrice ? itemPrice.type !== "recurring" : true;
+    });
+
+    const productsWithPrices = filterProducts.map((item) => {
       const itemPrice = prices.data.find(
         (price) => price.id === item.default_price
       );

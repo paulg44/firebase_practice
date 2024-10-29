@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "../css/homepage.css";
 
 function Homepage() {
@@ -91,6 +92,7 @@ function Homepage() {
             </div>
           ))}
         </div>
+        <Link to="subscriptions">Go to subscriptions</Link>
       </div>
     </div>
   );
