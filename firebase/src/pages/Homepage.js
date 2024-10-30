@@ -92,7 +92,7 @@ function Homepage() {
             </div>
           ))}
         </div>
-        <Link to="subscriptions">Go to subscriptions</Link>
+        <Link to="/subscriptions">Go to subscriptions</Link>
       </div>
     </div>
   );
