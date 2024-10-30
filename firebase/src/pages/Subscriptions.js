@@ -12,7 +12,7 @@ function Subscriptions() {
         ).then((subscriptionData) => {
           return subscriptionData.json();
         });
-        setSubscription(subscriptionResponse.data);
+        setSubscription(subscriptionResponse);
         console.log(subscriptionResponse);
       } catch (error) {
         console.error(

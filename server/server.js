@@ -100,7 +100,20 @@ app.get("/get-subscription-items", async (req, res) => {
       limit: 4,
     });
 
-    res.json(subscriptionProducts);
+    const subscriptionItems = [];
+    for (const product of subscriptionProducts.data) {
+      const prices = await Stripe.prices.list({
+        product: product.id,
+        limit: 1,
+      });
+
+      const hasRecurring = prices.data.some((price) => price.recurring);
+      if (hasRecurring) {
+        subscriptionItems.push(product);
+      }
+    }
+
+    res.json(subscriptionItems);
   } catch (error) {
     console.error("Error fetching subscription items", error);
     res.status(500).send("Error fetching subscriptions in server");
