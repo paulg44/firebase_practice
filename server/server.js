@@ -93,6 +93,20 @@ app.get("/get-all-items", async (req, res) => {
   }
 });
 
+// Subscriptions
+app.get("/get-subscription-items", async (req, res) => {
+  try {
+    const subscriptionProducts = await Stripe.products.list({
+      limit: 4,
+    });
+
+    res.json(subscriptionProducts);
+  } catch (error) {
+    console.error("Error fetching subscription items", error);
+    res.status(500).send("Error fetching subscriptions in server");
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
 });
