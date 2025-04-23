@@ -33,7 +33,6 @@ function App() {
         const uid = user.uid;
         setIsLoggedIn("Logout");
         setUserEmail(user.displayName);
-        // fetchAllDataTest();
         console.log("uid", uid, user);
         // Retrieve ID token?
       } else {

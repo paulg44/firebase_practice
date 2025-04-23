@@ -12,31 +12,6 @@ function SignUpForm() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  // Attempt to add username to database
-  async function addUserNameToDatabase(username, uid) {
-    const newUser = {
-      username: username,
-      uid: uid,
-    };
-    try {
-      const response = await fetch("http://localhost:3000/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newUser),
-      });
-      if (!response.ok) {
-        throw new Error(`http error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log("Successfully added new user to db", data);
-    } catch (error) {
-      console.error("Error adding new user");
-    }
-  }
-
   function passwordChecker(password) {
     const passwordRegex =
       /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
@@ -58,13 +33,11 @@ function SignUpForm() {
         await createUserWithEmailAndPassword(auth, email, password).then(
           (userCredential) => {
             const user = userCredential.user;
-            const uid = user.uid;
 
             updateProfile(user, {
               displayName: username,
             });
 
-            addUserNameToDatabase(username, uid);
             navigate("/login");
             console.log(user);
           }
