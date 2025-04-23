@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import "../css/signUpForm.css";
 import { NavLink, useNavigate } from "react-router-dom";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth } from "../config/firebase.js";
+// import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+// import { auth } from "../config/firebase.js";
+import { useAuth } from "../auth/useAuth.js";
 
 function SignUpForm() {
   const navigate = useNavigate();
+  const { signup, error } = useAuth();
 
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
 
   function passwordChecker(password) {
     const passwordRegex =
@@ -19,7 +21,7 @@ function SignUpForm() {
     if (password.match(passwordRegex)) {
       return true;
     } else {
-      setError(
+      console.log(
         "Password must contain an uppercase letter, digit, special character and be 8 or more characters long."
       );
     }
@@ -29,25 +31,8 @@ function SignUpForm() {
     e.preventDefault();
 
     if (passwordChecker(password)) {
-      try {
-        await createUserWithEmailAndPassword(auth, email, password).then(
-          (userCredential) => {
-            const user = userCredential.user;
-
-            updateProfile(user, {
-              displayName: username,
-            });
-
-            navigate("/login");
-            console.log(user);
-          }
-        );
-      } catch (error) {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        setError(errorMessage);
-        console.log(errorCode, errorMessage);
-      }
+      await signup(email, username, password);
+      navigate("/home");
     }
   }
 

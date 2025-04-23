@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "./config/firebase.js";
@@ -17,7 +17,6 @@ function App() {
   function handleLogOut() {
     signOut(auth)
       .then(() => {
-        // navigate("/login");
         setIsLoggedIn("Login");
         setUserEmail("Guest");
         console.log("Signed out successfully");
@@ -34,12 +33,22 @@ function App() {
         setIsLoggedIn("Logout");
         setUserEmail(user.displayName);
         console.log("uid", uid, user);
-        // Retrieve ID token?
       } else {
         console.log("user is logged out");
       }
     });
   }, []);
+
+  const ProtectRoute = ({ children }) => {
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        return <Navigate to="login" replace />;
+      }
+    });
+
+    return children;
+  };
+
   return (
     <BrowserRouter>
       <NavBar
@@ -48,7 +57,14 @@ function App() {
         handleLogOut={handleLogOut}
       />
       <Routes>
-        <Route path="/home" element={<Homepage />}></Route>
+        <Route
+          path="/home"
+          element={
+            <ProtectRoute>
+              <Homepage />
+            </ProtectRoute>
+          }
+        ></Route>
         <Route path="/" element={<SignUpForm />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/subscriptions" element={<Subscriptions />} />
