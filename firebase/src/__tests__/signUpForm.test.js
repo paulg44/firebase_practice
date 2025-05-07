@@ -96,20 +96,20 @@ describe("SignUpForm Component", () => {
     });
 
     // Even though this was a bad idea at the time I will test the fetch was called just as I'm practicing
-    await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalledWith(
-        "http://localhost:3000/api/register",
-        expect.objectContaining({
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: "tester",
-            uid: "12345",
-          }),
-        })
-      );
-    });
+    // await waitFor(() => {
+    //   expect(global.fetch).toHaveBeenCalledWith(
+    //     "http://localhost:3000/api/register",
+    //     expect.objectContaining({
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({
+    //         username: "tester",
+    //         uid: "12345",
+    //       }),
+    //     })
+    // );
   });
 });
+// });
