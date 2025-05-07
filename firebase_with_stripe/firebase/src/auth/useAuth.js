@@ -2,12 +2,15 @@ import { create } from "zustand";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../config/firebase.js";
 
+// Can I do a variable of isLoggedIn to protect routes etc??
+
 export const useAuth = create((set) => ({
   user: null,
   isLoading: false,
   error: null,
   isAuthenticated: false,
   message: null,
+  isLoggedIn: false,
 
   signup: async (email, username, password) => {
     set({ isLoading: true, error: null });
@@ -23,6 +26,7 @@ export const useAuth = create((set) => ({
             isLoading: false,
             isAuthenticated: true,
             user: user.displayName,
+            isLoggedIn: true,
           });
           console.log(user);
         }

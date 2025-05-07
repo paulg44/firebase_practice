@@ -9,15 +9,16 @@ import NavBar from "./components/NavBar.js";
 import Success from "./pages/Success.js";
 import Basket from "./components/Basket.js";
 import Subscriptions from "./pages/Subscriptions.js";
+import { useAuth } from "./auth/useAuth.js";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState("Login");
+  const [loggedIn, setLoggedIn] = useState("Login");
   const [userEmail, setUserEmail] = useState("Guest");
 
   function handleLogOut() {
     signOut(auth)
       .then(() => {
-        setIsLoggedIn("Login");
+        setLoggedIn("Login");
         setUserEmail("Guest");
         console.log("Signed out successfully");
       })
@@ -30,7 +31,7 @@ function App() {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const uid = user.uid;
-        setIsLoggedIn("Logout");
+        setLoggedIn("Logout");
         setUserEmail(user.displayName);
         console.log("uid", uid, user);
       } else {
@@ -40,11 +41,19 @@ function App() {
   }, []);
 
   const ProtectRoute = ({ children }) => {
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        return <Navigate to="login" replace />;
-      }
-    });
+    const { isLoggedIn, user } = useAuth();
+    if (!isLoggedIn && !user) {
+      return <Navigate to="login" replace />;
+    }
+
+    return children;
+  };
+
+  const AuthenticatedUserRoute = ({ children }) => {
+    const { isLoggedIn, user } = useAuth();
+    if (isLoggedIn && user) {
+      return <Navigate to="homepage" replace />;
+    }
 
     return children;
   };
@@ -52,7 +61,7 @@ function App() {
   return (
     <BrowserRouter>
       <NavBar
-        isLoggedIn={isLoggedIn}
+        isLoggedIn={loggedIn}
         userEmail={userEmail}
         handleLogOut={handleLogOut}
       />
@@ -65,8 +74,22 @@ function App() {
             </ProtectRoute>
           }
         ></Route>
-        <Route path="/" element={<SignUpForm />} />
-        <Route path="/login" element={<LoginForm />} />
+        <Route
+          path="/"
+          element={
+            <AuthenticatedUserRoute>
+              <SignUpForm />
+            </AuthenticatedUserRoute>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <AuthenticatedUserRoute>
+              <LoginForm />
+            </AuthenticatedUserRoute>
+          }
+        />
         <Route path="/subscriptions" element={<Subscriptions />} />
         <Route path="/basket" element={<Basket />} />
         <Route

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "../css/navbar.css";
 
-function NavBar({ isLoggedIn, handleLogOut, userEmail }) {
+function NavBar({ loggedIn, handleLogOut, userEmail }) {
   return (
     <nav className="navBar">
       <Link to={"/"} className="logo">
@@ -10,7 +10,7 @@ function NavBar({ isLoggedIn, handleLogOut, userEmail }) {
       <div className="navbarInfo">
         <p>Welcome {userEmail}</p>
         {/* Need to remove completely if not logged in or signed up*/}
-        {isLoggedIn === "Logout" ? (
+        {loggedIn === "Logout" ? (
           <Link to={"/"} onClick={handleLogOut} className="navbarBtn">
             Logout
           </Link>
