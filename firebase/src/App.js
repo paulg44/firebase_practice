@@ -1,7 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "./config/firebase.js";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useEffect } from "react";
 import SignUpForm from "./pages/SignUpForm.js";
 import LoginForm from "./pages/LoginForm.js";
 import Homepage from "./pages/Homepage.js";
@@ -16,7 +14,7 @@ function App() {
     useAuth.getState().initializeAuthListener();
   }, []);
 
-  const { user, isLoading } = useAuth();
+  const { user } = useAuth();
 
   // const ProtectRoute = ({ children }) => {
   //   const { isLoggedIn, user } = useAuth();

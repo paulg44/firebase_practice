@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import {
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   signOut,
   updateProfile,
 } from "firebase/auth";
@@ -64,6 +65,9 @@ export const useAuth = create((set) => ({
         set({
           isLoading: false,
         });
+        console.log(
+          "User created successfully. Waiting on auth state listener"
+        );
       } else {
         set({
           isLoading: false,
@@ -80,6 +84,24 @@ export const useAuth = create((set) => ({
 
   login: async (email, password) => {
     set({ isLoading: true, error: null });
+    try {
+      const user = await signInWithEmailAndPassword(auth, email, password);
+      set({ isLoading: false });
+      console.log(
+        user,
+        "User logged in successfully. Waiting on auth state listener"
+      );
+    } catch (error) {
+      const errorMessage = error.message;
+      console.error("Error logging in:", error);
+      set({
+        isLoading: false,
+        error: errorMessage,
+        user: null,
+        isAuthenticated: false,
+        isLoggedIn: false,
+      });
+    }
   },
 
   logOut: async () => {
@@ -87,7 +109,7 @@ export const useAuth = create((set) => ({
     try {
       await signOut(auth);
       set({ isLoading: false });
-      console.log("Successfully logged out");
+      console.log("Successfully logged out. Waiting on auth state listener");
     } catch (error) {
       const errorMessage = error.message;
       console.error("Logout error:", error);
