@@ -38,4 +38,8 @@ export const useAuth = create((set) => ({
       console.log(errorCode, errorMessage);
     }
   },
+
+  login: async (email, password) => {
+    set({ isLoading: true, error: null });
+  },
 }));

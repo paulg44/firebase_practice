@@ -40,23 +40,23 @@ function App() {
     });
   }, []);
 
-  const ProtectRoute = ({ children }) => {
-    const { isLoggedIn, user } = useAuth();
-    if (!isLoggedIn && !user) {
-      return <Navigate to="login" replace />;
-    }
+  // const ProtectRoute = ({ children }) => {
+  //   const { isLoggedIn, user } = useAuth();
+  //   if (!isLoggedIn && !user) {
+  //     return <Navigate to="login" replace />;
+  //   }
 
-    return children;
-  };
+  //   return children;
+  // };
 
-  const AuthenticatedUserRoute = ({ children }) => {
-    const { isLoggedIn, user } = useAuth();
-    if (isLoggedIn && user) {
-      return <Navigate to="homepage" replace />;
-    }
+  // const AuthenticatedUserRoute = ({ children }) => {
+  //   const { isLoggedIn, user } = useAuth();
+  //   if (isLoggedIn && user) {
+  //     return <Navigate to="home" replace />;
+  //   }
 
-    return children;
-  };
+  //   return children;
+  // };
 
   return (
     <BrowserRouter>
@@ -69,25 +69,25 @@ function App() {
         <Route
           path="/home"
           element={
-            <ProtectRoute>
-              <Homepage />
-            </ProtectRoute>
+            // <ProtectRoute>
+            <Homepage />
+            // </ProtectRoute>
           }
         ></Route>
         <Route
           path="/"
           element={
-            <AuthenticatedUserRoute>
-              <SignUpForm />
-            </AuthenticatedUserRoute>
+            // <AuthenticatedUserRoute>
+            <SignUpForm />
+            // </AuthenticatedUserRoute>
           }
         />
         <Route
           path="/login"
           element={
-            <AuthenticatedUserRoute>
-              <LoginForm />
-            </AuthenticatedUserRoute>
+            // <AuthenticatedUserRoute>
+            <LoginForm />
+            // </AuthenticatedUserRoute>
           }
         />
         <Route path="/subscriptions" element={<Subscriptions />} />
