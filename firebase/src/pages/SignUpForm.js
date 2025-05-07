@@ -32,7 +32,7 @@ function SignUpForm() {
 
     if (passwordChecker(password)) {
       await signup(email, username, password);
-      navigate("/home");
+      navigate("/login");
     }
   }
 

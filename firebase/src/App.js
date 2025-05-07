@@ -12,33 +12,11 @@ import Subscriptions from "./pages/Subscriptions.js";
 import { useAuth } from "./auth/useAuth.js";
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState("Login");
-  const [userEmail, setUserEmail] = useState("Guest");
-
-  function handleLogOut() {
-    signOut(auth)
-      .then(() => {
-        setLoggedIn("Login");
-        setUserEmail("Guest");
-        console.log("Signed out successfully");
-      })
-      .catch(() => {
-        console.log("error signing out");
-      });
-  }
-
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const uid = user.uid;
-        setLoggedIn("Logout");
-        setUserEmail(user.displayName);
-        console.log("uid", uid, user);
-      } else {
-        console.log("user is logged out");
-      }
-    });
+    useAuth.getState().initializeAuthListener();
   }, []);
+
+  const { user, isLoading } = useAuth();
 
   // const ProtectRoute = ({ children }) => {
   //   const { isLoggedIn, user } = useAuth();
@@ -60,11 +38,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavBar
-        isLoggedIn={loggedIn}
-        userEmail={userEmail}
-        handleLogOut={handleLogOut}
-      />
+      <NavBar />
       <Routes>
         <Route
           path="/home"
@@ -94,7 +68,7 @@ function App() {
         <Route path="/basket" element={<Basket />} />
         <Route
           path="/home/success"
-          element={<Success userEmail={userEmail} />}
+          element={<Success userEmail={user ? user.displayName : "Guest"} />}
         />
       </Routes>
     </BrowserRouter>

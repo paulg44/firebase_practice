@@ -1,5 +1,10 @@
 import { create } from "zustand";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signOut,
+  updateProfile,
+} from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../config/firebase.js";
 
 // Can I do a variable of isLoggedIn to protect routes etc??
@@ -10,27 +15,61 @@ export const useAuth = create((set) => ({
   error: null,
   isAuthenticated: false,
   message: null,
-  isLoggedIn: false,
+  // isLoggedIn: false,
+
+  initializeAuthListener: () => {
+    onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        set({
+          user: currentUser,
+          isLoading: false,
+          isAuthenticated: true,
+          isLoggedIn: true,
+          error: null,
+        });
+        console.log(
+          "Auth state changed: User signed in",
+          currentUser.displayName
+        );
+      } else {
+        set({
+          user: null,
+          isLoading: false,
+          isAuthenticated: false,
+          isLoggedIn: false,
+          error: null, // Clear any previous error
+        });
+        console.log("Auth state changed: User signed out");
+      }
+    });
+  },
 
   signup: async (email, username, password) => {
     set({ isLoading: true, error: null });
     try {
-      await createUserWithEmailAndPassword(auth, email, password).then(
-        (userCredential) => {
-          const user = userCredential.user;
-
-          updateProfile(user, {
-            displayName: username,
-          });
-          set({
-            isLoading: false,
-            isAuthenticated: true,
-            user: user.displayName,
-            isLoggedIn: true,
-          });
-          console.log(user);
-        }
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
       );
+      const user = userCredential.user;
+
+      if (user) {
+        console.log("User created:", user.uid);
+
+        await updateProfile(user, {
+          displayName: username,
+        });
+        console.log("Profile update requested");
+        set({
+          isLoading: false,
+        });
+      } else {
+        set({
+          isLoading: false,
+          error: "Signup succeeded but failed to get user details",
+        });
+      }
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
@@ -41,5 +80,18 @@ export const useAuth = create((set) => ({
 
   login: async (email, password) => {
     set({ isLoading: true, error: null });
+  },
+
+  logOut: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      await signOut(auth);
+      set({ isLoading: false });
+      console.log("Successfully logged out");
+    } catch (error) {
+      const errorMessage = error.message;
+      console.error("Logout error:", error);
+      set({ isLoading: false, error: errorMessage });
+    }
   },
 }));
