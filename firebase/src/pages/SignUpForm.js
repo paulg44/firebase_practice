@@ -7,32 +7,36 @@ import { useAuth } from "../auth/useAuth.js";
 
 function SignUpForm() {
   const navigate = useNavigate();
-  const { signup, error } = useAuth();
+  const { signup } = useAuth();
 
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  // const [error, setError] = useState("");
+  const [pageError, setPageError] = useState("");
 
   function passwordChecker(password) {
     const passwordRegex =
       /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 
-    if (password.match(passwordRegex)) {
-      return true;
-    } else {
-      console.log(
-        "Password must contain an uppercase letter, digit, special character and be 8 or more characters long."
-      );
-    }
+    return passwordRegex.test(password);
   }
 
   async function onFormSubmit(e) {
     e.preventDefault();
 
-    if (passwordChecker(password)) {
-      await signup(email, username, password);
+    if (!passwordChecker(password)) {
+      setPageError(
+        "Password must contain an uppercase letter, digit, special character and be 8 or more characters long."
+      );
+      return;
+    }
+
+    const result = await signup(email, username, password);
+
+    if (result.success) {
       navigate("/login");
+    } else {
+      setPageError(result.error || "Signup Failed.");
     }
   }
 
@@ -75,7 +79,7 @@ function SignUpForm() {
           data-cy="passwordInput"
         />
 
-        <p style={{ color: "red" }}>{error}</p>
+        <p style={{ color: "red" }}>{pageError}</p>
 
         <button type="submit" onClick={onFormSubmit}>
           Sign Up

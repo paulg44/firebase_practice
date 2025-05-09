@@ -16,6 +16,7 @@ export const useAuth = create((set) => ({
   error: null,
   isAuthenticated: false,
   message: null,
+  success: "",
   // isLoggedIn: false,
 
   initializeAuthListener: () => {
@@ -68,17 +69,18 @@ export const useAuth = create((set) => ({
         console.log(
           "User created successfully. Waiting on auth state listener"
         );
+        return { success: true };
       } else {
         set({
           isLoading: false,
           error: "Signup succeeded but failed to get user details",
         });
+        return { success: false, error: "User creation failed." };
       }
     } catch (error) {
-      const errorCode = error.code;
       const errorMessage = error.message;
-      set({ error: errorMessage });
-      console.log(errorCode, errorMessage);
+      set({ isLoading: false, error: errorMessage });
+      return { success: false, error: errorMessage };
     }
   },
 
