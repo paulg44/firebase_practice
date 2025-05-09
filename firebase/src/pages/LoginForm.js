@@ -9,15 +9,17 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState("");
 
-  const { login, error } = useAuth();
+  const { login } = useAuth();
 
-  function handleLogin(e) {
+  async function handleLogin(e) {
     e.preventDefault();
 
-    setErrors(error);
-
-    login(email, password);
-    navigate("/home");
+    const result = await login(email, password);
+    if (result.success) {
+      navigate("/home");
+    } else {
+      setErrors(result.error || "Login Failed");
+    }
   }
 
   return (

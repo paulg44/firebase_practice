@@ -93,6 +93,7 @@ export const useAuth = create((set) => ({
         user,
         "User logged in successfully. Waiting on auth state listener"
       );
+      return { success: true };
     } catch (error) {
       const errorMessage = error.message;
       console.error("Error logging in:", error);
@@ -103,6 +104,7 @@ export const useAuth = create((set) => ({
         isAuthenticated: false,
         isLoggedIn: false,
       });
+      return { success: false, error: errorMessage };
     }
   },
 
